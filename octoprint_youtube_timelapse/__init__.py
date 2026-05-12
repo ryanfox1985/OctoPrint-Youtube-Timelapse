@@ -1,6 +1,3 @@
-# coding=utf-8
-from __future__ import absolute_import
-
 import octoprint.plugin
 from octoprint.events import Events
 from octoprint.server import user_permission
