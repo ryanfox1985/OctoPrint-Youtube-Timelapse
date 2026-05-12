@@ -87,6 +87,9 @@ class YoutubeTimelapsePlugin(octoprint.plugin.StartupPlugin,
             dict(type='settings', custom_bindings=True, template='youtube_timelapse_settings.jinja2')
         ]
 
+    def is_template_autoescaped(self):
+        return True
+
     def get_update_information(self):
         return dict(
             youtube_timelapse=dict(
