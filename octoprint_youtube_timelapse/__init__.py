@@ -122,6 +122,9 @@ class YoutubeTimelapsePlugin(octoprint.plugin.StartupPlugin,
 
     # ~~ SimpleApiPlugin mixin
 
+    def is_api_protected(self):
+        return True
+
     def get_api_commands(self):
         return dict(gen_secret=["json_data"], authorize=["auth_code"], upload_videos=["videos_folder"])
 
