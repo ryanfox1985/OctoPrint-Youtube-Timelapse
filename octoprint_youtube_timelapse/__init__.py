@@ -8,6 +8,7 @@ from apiclient.discovery import build
 from apiclient.http import MediaFileUpload
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.file import Storage
+from octoprint.access.permissions import Permissions
 from octoprint.events import Events
 
 # This OAuth 2.0 access scope allows an application to upload files to the
@@ -128,7 +129,7 @@ class YoutubeTimelapsePlugin(octoprint.plugin.StartupPlugin,
         return dict(gen_secret=["json_data"], authorize=["auth_code"], upload_videos=["videos_folder"])
 
     def on_api_command(self, command, data):
-        if not user_permission.can():
+        if not Permissions.SETTINGS.can():
             return flask.make_response("Insufficient rights", 403)
 
         client_secrets = "{}/client_secrets.json".format(self.get_plugin_data_folder())
