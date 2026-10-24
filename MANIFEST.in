@@ -1,3 +1,4 @@
 include README.md
 recursive-include octoprint_youtube_timelapse/templates *
 recursive-include octoprint_youtube_timelapse/static *
+recursive-include octoprint_youtube_timelapse/translations *

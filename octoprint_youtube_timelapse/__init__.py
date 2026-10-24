@@ -1,18 +1,15 @@
-# coding=utf-8
-from __future__ import absolute_import
-
-import octoprint.plugin
-from octoprint.events import Events
-from octoprint.server import user_permission
-from oauth2client.file import Storage
-from oauth2client.client import flow_from_clientsecrets
-from apiclient.discovery import build
-from apiclient.http import MediaFileUpload
-
-import os
 import json
+import os
+
 import flask
 import httplib2
+import octoprint.plugin
+from apiclient.discovery import build
+from apiclient.http import MediaFileUpload
+from oauth2client.client import flow_from_clientsecrets
+from oauth2client.file import Storage
+from octoprint.access.permissions import Permissions
+from octoprint.events import Events
 
 # This OAuth 2.0 access scope allows an application to upload files to the
 # authenticated user's YouTube channel, but doesn't allow other types of access
@@ -87,6 +84,9 @@ class YoutubeTimelapsePlugin(octoprint.plugin.StartupPlugin,
             dict(type='settings', custom_bindings=True, template='youtube_timelapse_settings.jinja2')
         ]
 
+    def is_template_autoescaped(self):
+        return True
+
     def get_update_information(self):
         return dict(
             youtube_timelapse=dict(
@@ -122,11 +122,14 @@ class YoutubeTimelapsePlugin(octoprint.plugin.StartupPlugin,
 
     # ~~ SimpleApiPlugin mixin
 
+    def is_api_protected(self):
+        return True
+
     def get_api_commands(self):
         return dict(gen_secret=["json_data"], authorize=["auth_code"], upload_videos=["videos_folder"])
 
     def on_api_command(self, command, data):
-        if not user_permission.can():
+        if not Permissions.SETTINGS.can():
             return flask.make_response("Insufficient rights", 403)
 
         client_secrets = "{}/client_secrets.json".format(self.get_plugin_data_folder())

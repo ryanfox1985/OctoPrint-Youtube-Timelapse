@@ -1,0 +1,46 @@
+[build-system]
+requires = [
+    "setuptools>=68",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "OctoPrint-Youtube-Timelapse"
+version = "0.1.8"
+description = "Automatically upload rendered timelapses to Youtube. Can also delete after upload to save space on the Raspberry Pi SD Card."
+authors = [
+    { name = "Guillermo Guerrero Ibarra", email = "wolf.fox1985@gmail.com" },
+]
+requires-python = ">=3,<4"
+dependencies = [
+    "oauth2client",
+    "google-api-python-client",
+    "httplib2",
+]
+dynamic = [
+    "license",
+]
+
+[project.entry-points."octoprint.plugin"]
+youtube_timelapse = "octoprint_youtube_timelapse"
+
+[project.urls]
+Homepage = "https://github.com/ryanfox1985/OctoPrint-Youtube-Timelapse"
+
+[project.optional-dependencies]
+develop = [
+    "go-task-bin",
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = [
+    "octoprint_youtube_timelapse",
+    "octoprint_youtube_timelapse.*",
+]
